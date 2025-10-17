@@ -49,3 +49,8 @@ require 'configuration-routes.php';
  * Rest routes.
  */
 require 'rest-routes.php';
+
+/**
+ * AI routes.
+ */
+require 'ai-routes.php';

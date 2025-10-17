@@ -2214,6 +2214,12 @@ return [
                         'title'                 => 'Models',
                     ],
                 ],
+
+                'improver' => [
+                    'name'   => 'Paragraph Improver',
+                    'info'   => 'Enable or disable the Paragraph Improver feature.',
+                    'enable' => 'Enable Paragraph Improver',
+                ],
             ],
         ],
     ],

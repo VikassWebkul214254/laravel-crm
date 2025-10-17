@@ -240,15 +240,27 @@ return [
             ],
         ],
     ], [
+        'key'    => 'general.magic_ai.improver',
+        'name'   => 'admin::app.configuration.index.magic-ai.improver.name',
+        'info'   => 'admin::app.configuration.index.magic-ai.improver.info',
+        'sort'   => 2,
+        'fields' => [
+            [
+                'name'  => 'enabled',
+                'title' => 'admin::app.configuration.index.magic-ai.improver.enable',
+                'type'  => 'boolean',
+            ],
+        ],
+    ], [
         'key'    => 'general.magic_ai.doc_generation',
         'name'   => 'admin::app.configuration.index.magic-ai.settings.doc-generation',
         'info'   => 'admin::app.configuration.index.magic-ai.settings.doc-generation-info',
         'sort'   => 2,
         'fields' => [
             [
-                'name'          => 'enabled',
-                'title'         => 'admin::app.configuration.index.magic-ai.settings.enable',
-                'type'          => 'boolean',
+                'name'  => 'enabled',
+                'title' => 'admin::app.configuration.index.magic-ai.settings.enable',
+                'type'  => 'boolean',
             ],
         ],
     ],

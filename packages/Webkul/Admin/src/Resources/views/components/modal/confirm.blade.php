@@ -42,9 +42,7 @@
                                 @{{ title }}
                             </div>
 
-                            <div class="px-4 py-3 text-left text-gray-600 dark:text-gray-300">
-                                @{{ message }}
-                            </div>
+                            <div class="px-4 py-3 text-left text-gray-600 dark:text-gray-300" v-safe-html="message"></div>
 
                             <div class="flex justify-end gap-2.5 px-4 py-2.5">
                                 <button type="button" class="transparent-button" @click="disagree">

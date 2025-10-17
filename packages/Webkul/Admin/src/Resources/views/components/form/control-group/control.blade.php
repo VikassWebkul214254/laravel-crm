@@ -90,41 +90,54 @@
         @break
 
     @case('textarea')
-        <v-field
-            v-slot="{ field, errors }"
-            {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
-            name="{{ $name }}"
-        >
-            @php
-                $defaultAttributes = [
-                    'class' => 'w-full rounded border border-gray-200 px-2.5 py-2 text-sm font-normal text-gray-800 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400'
-                ];
+        @php
+            $aiEnabled = $attributes->get('ai-enabled', 'false');
+            $isEnabled = (core()->getConfigData('general.magic_ai.settings.enable') && core()->getConfigData('general.magic_ai.improver.enabled')) ?? '0';
+            $isAiEnabled = ($aiEnabled === 'true' || $aiEnabled === true || $aiEnabled === '1' || $aiEnabled === 1) && ($isEnabled == '1' || $isEnabled == true);
+        @endphp
 
-                if ($attributes->get('tinymce', false) || $attributes->get(':tinymce', false)) {
-                    $defaultAttributes['id'] = $attributes->get(':id', 'id');
-                }
-            @endphp
-
-            <textarea
-                type="{{ $type }}"
+        @if ($isAiEnabled)
+            <x-admin::form.control-group.controls.inline.textarea-ai
+                :name="$name"
+                {{ $attributes }}
+            />
+        @else
+            <v-field
+                v-slot="{ field, errors }"
+                {{ $attributes->only(['name', ':name', 'value', ':value', 'v-model', 'rules', ':rules', 'label', ':label']) }}
                 name="{{ $name }}"
-                v-bind="field"
-                :class="[errors.length ? 'border !border-red-600 hover:border-red-600' : '']"
-                {{
-                    $attributes
-                        ->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])
-                        ->merge($defaultAttributes)
-                }}
             >
-            </textarea>
+                @php
+                    $defaultAttributes = [
+                        'class' => 'w-full rounded border border-gray-200 px-2.5 py-2 text-sm font-normal text-gray-800 transition-all hover:border-gray-400 focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-400 dark:focus:border-gray-400'
+                    ];
 
-            @if ($attributes->get('tinymce', false) || $attributes->get(':tinymce', false))
-                <x-admin::tinymce
-                    :selector="'textarea#' . ($attributes->get('id') ?? $attributes->get(':id'))"
-                    ::field="field"
-                />
-            @endif
-        </v-field>
+                    if ($attributes->get('tinymce', false) || $attributes->get(':tinymce', false)) {
+                        $defaultAttributes['id'] = $attributes->get(':id', 'id');
+                    }
+                @endphp
+
+                <textarea
+                    type="{{ $type }}"
+                    name="{{ $name }}"
+                    v-bind="field"
+                    :class="[errors.length ? 'border !border-red-600 hover:border-red-600' : '']"
+                    {{
+                        $attributes
+                            ->except(['value', ':value', 'v-model', 'rules', ':rules', 'label', ':label'])
+                            ->merge($defaultAttributes)
+                    }}
+                >
+                </textarea>
+
+                @if ($attributes->get('tinymce', false) || $attributes->get(':tinymce', false))
+                    <x-admin::tinymce
+                        :selector="'textarea#' . ($attributes->get('id') ?? $attributes->get(':id'))"
+                        ::field="field"
+                    />
+                @endif
+            </v-field>
+        @endif
 
         @break
 

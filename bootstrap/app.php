@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'dark_mode',
         ]);
 
-        $middleware->validateCsrfTokens(except: [
+        $middleware->preventRequestForgery(except: [
             'admin/mail/inbound-parse',
             'admin/web-forms/forms/*',
         ]);

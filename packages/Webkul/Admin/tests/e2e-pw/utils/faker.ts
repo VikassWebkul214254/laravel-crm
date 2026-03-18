@@ -401,17 +401,12 @@ async function createOrganization(page) {
     await page.getByRole('textbox', { name: 'Postcode' }).fill('123456');
 
     /**
-     * Click to add extra details
-     */
-    await page.locator('div').filter({ hasText: /^Click to add$/ }).nth(2).click();
-    await page.getByRole('textbox', { name: 'Search...' }).fill('exampl');
-    await page.getByRole('listitem').filter({ hasText: 'Example' }).click();
-
-    /**
      * Click on "Save Organization"
      */
     await page.getByRole('button', { name: 'Save Organization' }).click();
-    // await expect(page.getByText(companyName)).toBeVisible();
+
+    await expect(page.locator('#app')).toContainText('Success', { timeout: 10000 });
+
     return companyName;
 }
 
@@ -445,13 +440,10 @@ async function createPerson(page) {
     await page.getByRole('textbox', { name: 'Contact Numbers' }).fill(phone);
     await page.getByRole('textbox', { name: 'Job Title' }).fill(Job);
 
-    // Select an organization
-    await page.locator('.relative > div > .relative').first().click();
-    await page.getByRole('textbox', { name: 'Search...' }).fill('examp');
-    await page.getByRole('listitem').filter({ hasText: 'Example' }).click();
-
     // Save person
     await page.getByRole('button', { name: 'Save Person' }).click();
+
+    await expect(page.locator('#app')).toContainText('Success', { timeout: 10000 });
 
     return { Name, email, phone };
 }

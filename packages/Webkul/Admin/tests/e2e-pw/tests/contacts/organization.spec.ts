@@ -94,13 +94,6 @@ test.describe("organization management", () => {
         await adminPage.getByRole('textbox', { name: 'Postcode' }).fill('123456');
 
         /** 
-         * Click to add extra details
-         */
-        await adminPage.locator('div').filter({ hasText: /^Click to add$/ }).nth(2).click();
-        await adminPage.getByRole('textbox', { name: 'Search...' }).fill('exampl');
-        await adminPage.getByRole('listitem').filter({ hasText: 'Example' }).click();
-
-        /** 
          * Click on "Save Organization"
          */
         await adminPage.getByRole('button', { name: 'Save Organization' }).click();

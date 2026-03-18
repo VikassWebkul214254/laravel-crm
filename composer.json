@@ -9,16 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "barryvdh/laravel-dompdf": "^3.1",
+        "barryvdh/laravel-dompdf": "dev-master",
         "diglactic/laravel-breadcrumbs": "^10.0",
         "enshrined/svg-sanitize": "^0.22.0",
         "guzzlehttp/guzzle": "^7.8",
         "khaled.alshamaa/ar-php": "^6.3",
         "konekt/concord": "^1.17",
-        "laravel/framework": "^12.0",
+        "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10",
-        "laravel/ui": "^4.6",
+        "laravel/tinker": "^3.0",
+        "laravel/ui": "4.x-dev",
         "league/fractal": "^0.21.0",
         "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "^8.2",
@@ -27,16 +27,16 @@
         "webklex/laravel-imap": "^6.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.14",
+        "barryvdh/laravel-debugbar": "^4.1",
         "fakerphp/faker": "^1.23",
         "krayin/krayin-package-generator": "dev-master",
-        "laravel/pint": "^1.18",
-        "laravel/sail": "^1.38",
+        "laravel/pint": "^1.29",
+        "laravel/sail": "^1.53",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.0",
-        "pestphp/pest": "^3.0",
-        "pestphp/pest-plugin-laravel": "^3.0",
-        "phpunit/phpunit": "^11.0",
+        "nunomaduro/collision": "^8.9",
+        "pestphp/pest": "^4.4",
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "phpunit/phpunit": "^12.5",
         "spatie/laravel-ignition": "^2.8"
     },
     "config": {
@@ -87,6 +87,13 @@
         }
     },
     "repositories": [
+        {
+            "type": "path",
+            "url": "overrides/*/*",
+            "options": {
+                "symlink": true
+            }
+        },
         {
             "type": "path",
             "url": "packages/*/*",

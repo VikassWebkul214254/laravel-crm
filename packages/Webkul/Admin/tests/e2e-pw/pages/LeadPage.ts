@@ -45,7 +45,7 @@ export class LeadPage extends CoreLocators {
         await productPage.productForm(leadData.product);
 
         await this.navigateToLeadList();
-        await this.createLeadButton.click();
+        await this.createLeadButton.first().click();;
 
         await this.titleInput.fill(leadData.title);
         await this.descriptionTextarea.fill(leadData.description);

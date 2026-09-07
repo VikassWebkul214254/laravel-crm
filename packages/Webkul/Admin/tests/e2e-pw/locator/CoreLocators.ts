@@ -1,5 +1,5 @@
 import { LegacyCharacterEncoding } from "crypto";
-import { expect, Locator, Page } from "playwright/test";
+import { expect, FrameLocator, Locator, Page } from "playwright/test";
 
 type ElementType = "button" | "textbox" | "link";
 
@@ -247,6 +247,7 @@ export default class CoreLocators {
     readonly quickAddPersonForm: Locator;
     readonly quickAddOrganizationForm: Locator;
     readonly quickAddProductForm: Locator;
+    readonly quickAddMailForm: Locator;
 
     readonly quickAddLeadTitleInput: Locator;
     readonly quickAddLeadDescriptionTextarea: Locator;
@@ -263,10 +264,19 @@ export default class CoreLocators {
     readonly quickAddProductQuantityInput: Locator;
     readonly quickAddProductPriceInput: Locator;
 
+    readonly quickAddMailReplyToInput: Locator;
+    readonly quickAddMailCcInput: Locator;
+    readonly quickAddMailBccInput: Locator;
+    readonly quickAddMailCcButton: Locator;
+    readonly quickAddMailBccButton: Locator;
+    readonly quickAddMailSubjectInput: Locator;
+    readonly quickAddMailEditorFrame: FrameLocator;
+
     readonly quickAddLeadSuccessMsg: Locator;
     readonly quickAddPersonSuccessMsg: Locator;
     readonly quickAddOrgSuccessMsg: Locator;
     readonly quickAddProductSuccessMsg: Locator;
+    readonly quickAddMailSuccessMsg: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -528,6 +538,7 @@ export default class CoreLocators {
         this.quickAddPersonForm = page.locator('form:has(input[value="person"])').first();
         this.quickAddOrganizationForm = page.locator('form:has(input[value="organization"])').first();
         this.quickAddProductForm = page.locator('form:has(input[value="product"])').first();
+        this.quickAddMailForm = page.locator('form:has(input[name="is_draft"])').first();
 
         this.quickAddLeadTitleInput = this.quickAddLeadForm.locator('input[name="title"]');
         this.quickAddLeadDescriptionTextarea = this.quickAddLeadForm.locator('textarea[name="description"]');
@@ -544,17 +555,28 @@ export default class CoreLocators {
         this.quickAddProductQuantityInput = this.quickAddProductForm.locator('input[name="quantity"]');
         this.quickAddProductPriceInput = this.quickAddProductForm.locator('input[name="price"]');
 
+        this.quickAddMailReplyToInput = this.quickAddMailForm.locator('input[name="temp-reply_to"]');
+        this.quickAddMailCcInput = this.quickAddMailForm.locator('input[name="temp-cc"]');
+        this.quickAddMailBccInput = this.quickAddMailForm.locator('input[name="temp-bcc"]');
+        this.quickAddMailCcButton = this.quickAddMailForm.getByText('CC', { exact: true });
+        this.quickAddMailBccButton = this.quickAddMailForm.getByText('BCC', { exact: true });
+        this.quickAddMailSubjectInput = this.quickAddMailForm.locator('input[name="subject"]');
+        this.quickAddMailEditorFrame = this.quickAddMailForm.frameLocator('iframe.tox-edit-area__iframe');
+
         this.quickAddLeadSuccessMsg = page.getByText("Lead created successfully.");
         this.quickAddPersonSuccessMsg = page.getByText("Person created successfully.");
         this.quickAddOrgSuccessMsg = page.getByText("Organization created successfully.");
         this.quickAddProductSuccessMsg = page.getByText("Product created successfully.");
+        this.quickAddMailSuccessMsg = page.getByText("Email sent successfully.");
     }
     async searchByName(name: string) {
         (await this.getElementByTypeAndName('textbox', 'Search')).fill(name);
+        
         await this.page.keyboard.press('Enter');
     }
 
     async getElementByTypeAndName(type: ElementType, name: string) {
+        await expect(this.page.getByRole(`${type}`, { name: `${name}`, exact: true })).toBeVisible();
         return this.page.getByRole(`${type}`, { name: `${name}`, exact: true });
     }
 

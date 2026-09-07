@@ -13,6 +13,7 @@ export class DataTransferPage extends SettingsPage {
     readonly createImportLink: Locator;
     readonly fileInput: Locator;
     readonly processQueueCheckbox: Locator;
+    readonly processQueueInput: Locator;
     readonly entityTypeSelect: Locator;
     readonly saveImportButton: Locator;
     readonly validateButton: Locator;
@@ -27,7 +28,8 @@ export class DataTransferPage extends SettingsPage {
         this.page = page;
         this.createImportLink = page.locator('a.primary-button');
         this.fileInput = page.locator('input[name="file"]');
-        this.processQueueCheckbox = page.locator('.peer.h-5');
+        this.processQueueCheckbox = page.locator('label[for="process_in_queue"]');
+        this.processQueueInput = page.locator('input[name="process_in_queue"]');
         this.entityTypeSelect = page.locator('#import-type');
         this.saveImportButton = page.getByRole('button', { name: 'Save Import' });
         this.validateButton = page.locator('//button[contains(.,"Validate")]');
@@ -44,8 +46,7 @@ export class DataTransferPage extends SettingsPage {
 
         await this.createImportLink.click();
         await this.setInputFiles('input[name="file"]', csvFilePath);
-        // Uncheck process in queue if needed
-        await this.processQueueCheckbox.click();
+        await this.uncheckProcessQueue();
 
         await this.entityTypeSelect.selectOption(entityType);
         await this.saveImportButton.click();
@@ -59,6 +60,7 @@ export class DataTransferPage extends SettingsPage {
     async updateImport(csvFilePath: string) {
         await this.editIcon.click();
         await this.setInputFiles('input[name="file"]', csvFilePath);
+        await this.uncheckProcessQueue();
         await this.saveImportButton.click();
 
         // Validation and import
@@ -77,6 +79,23 @@ export class DataTransferPage extends SettingsPage {
         await this.confirmDeleteButton.click();
         // Confirm deletion and presence of 'No Records Available.'
         await expect(this.successMessage.first()).toBeVisible();
+    }
+
+    /**
+     * The import must run synchronously in every test, otherwise the records are
+     * only queued and the assertions race the queue worker. The switch is toggled
+     * through its label because the real checkbox is visually hidden, and it is
+     * clicked only when checked so the state stays deterministic on both the
+     * create form (off by default) and the edit form (reflects the saved import).
+     */
+    async uncheckProcessQueue() {
+        await this.processQueueInput.waitFor({ state: 'attached' });
+
+        if (await this.processQueueInput.isChecked()) {
+            await this.processQueueCheckbox.click();
+        }
+
+        await expect(this.processQueueInput).not.toBeChecked();
     }
 
     // Utility method for setting files, with fallback to Playwright's method

@@ -11,14 +11,31 @@ export type PersonData = {
     organizationName: string;
 };
 
-export const personData: PersonData = {
-    name: generateName(),
-    emails: generateEmail(),
-    contactNumber: generatePhoneNumber(),
-    jobTitle: generateName(),
-    salesOwnerId: "1", // Example sales owner id
-    organizationName: organizationData.name
-};
+/**
+ * Build a person with an email and contact number unique to this call.
+ *
+ * Both fields are unique in Krayin, so two persons built from one shared object cannot both be
+ * saved — the second submit fails with "The value has already been taken." Each spec that creates
+ * a person therefore needs its own instance, while keeping that instance stable *within* the spec
+ * so the create / edit / delete cases all address the same record.
+ */
+export function buildPersonData(overrides: Partial<PersonData> = {}): PersonData {
+    return {
+        name: generateName(),
+        emails: generateEmail(),
+        contactNumber: generatePhoneNumber(),
+        jobTitle: generateName(),
+        salesOwnerId: "1", // Example sales owner id
+        organizationName: organizationData.name,
+        ...overrides,
+    };
+}
+
+/**
+ * Default instance kept for existing importers. Do not create a person from this in more than one
+ * spec — build a fresh instance instead.
+ */
+export const personData: PersonData = buildPersonData();
 
 export default class PersonsPage extends CoreLocators {
     readonly page: Page;

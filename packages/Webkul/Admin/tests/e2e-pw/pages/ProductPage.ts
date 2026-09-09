@@ -10,13 +10,29 @@ export type ProductData = {
   priceInDollars?: string, // Optional if price is stored in a different currency
   quantity: string,
 }
-export const productData = {
-  name: generateName(),
-  description: generateDescription(),
-  sku: generateSKU(),
-  price: Math.floor(Math.random() * 1000).toString(),
-  quantity: Math.floor(Math.random() * 100).toString()
-};
+/**
+ * Build a product with a SKU unique to this call.
+ *
+ * SKU is unique in Krayin, so two products built from one shared object cannot both be saved. The
+ * product, lead and quote specs each create a product, so each needs its own instance — sharing one
+ * makes whichever spec runs later fail on the product step.
+ */
+export function buildProductData(overrides: Partial<ProductData> = {}): ProductData {
+  return {
+    name: generateName(),
+    description: generateDescription(),
+    sku: generateSKU(),
+    price: Math.floor(Math.random() * 1000).toString(),
+    quantity: Math.floor(Math.random() * 100).toString(),
+    ...overrides,
+  };
+}
+
+/**
+ * Default instance kept for existing importers. Do not create a product from this in more than one
+ * spec — build a fresh instance instead.
+ */
+export const productData: ProductData = buildProductData();
 
 
 export class ProductPage extends CoreLocators {

@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 import { expect, test } from "../../fixtures/AdminFixtures";
 import { DataTransferPage } from "../../pages/settings/DataTransferPage";
 import OrganizationPage, { organizationData } from "../../pages/OrganizationPage";
-import PersonsPage, { personData } from "../../pages/PersonsPage";
+import PersonsPage, { buildPersonData } from "../../pages/PersonsPage";
 import { allowedNodeEnvironmentFlags } from "process";
 const updatedCsvFileName = 'leads_updated.csv';
 const __filename = fileURLToPath(import.meta.url);
@@ -60,7 +60,12 @@ test.describe("data transfer lead management",async()=>{
         
 
         await person.navigageToPersonsPage();
-        await person.createPerson(personData);
+
+        /**
+         * Its own person: email and contact number are unique in Krayin, so sharing one object with
+         * the person, lead and quote specs makes whichever runs later fail validation.
+         */
+        await person.createPerson(buildPersonData());
         personId = await person.firstPerson.textContent();
 
       

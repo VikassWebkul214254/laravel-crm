@@ -1,7 +1,6 @@
 import { test, expect } from "../fixtures/AdminFixtures";
 import { LeadData, leadData, LeadPage } from "../pages/LeadPage";
-import PersonsPage, { personData } from "../pages/PersonsPage";
-import { productData } from "../pages/ProductPage";
+import PersonsPage from "../pages/PersonsPage";
 import { generateDescription, generateEmail, generateName, generatePhoneNumber, generateSKU } from "../utils/faker";
 
 
@@ -12,9 +11,9 @@ test.describe("lead management", async () => {
             description: generateDescription(),
             value: (Math.floor(Math.random() * 10000)).toString(),
             expectedCloseDate: "2028-12-31",
-            person: personData,
-            product: productData,
-            organizationName: personData.organizationName
+            person: leadData.person,
+            product: leadData.product,
+            organizationName: leadData.person.organizationName
 
     }
   
@@ -23,7 +22,11 @@ test.describe("lead management", async () => {
         const leadPage = new LeadPage(adminPage);
         const personPage = new PersonsPage(adminPage);
         await personPage.navigageToPersonsPage();
-        await personPage.createPerson(personData);
+        /**
+         * Create the person the lead form will then select. It has to be the lead flow's own
+         * person, not the shared one, or this collides with the person spec's record.
+         */
+        await personPage.createPerson(leadData.person);
 
         await leadPage.createLead(leadData);
 

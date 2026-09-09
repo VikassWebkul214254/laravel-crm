@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from "@playwright/test";
 import CoreLocators from "../locator/CoreLocators";
-import { personData, PersonData } from "./PersonsPage";
-import { productData, ProductData, ProductPage } from "./ProductPage";
+import { buildPersonData, PersonData } from "./PersonsPage";
+import { buildProductData, ProductData, ProductPage } from "./ProductPage";
 import { generateDescription, generateName } from "../utils/faker";
 
 
@@ -15,14 +15,25 @@ export type LeadData = {
     product: ProductData;
 };
 
+const leadPersonData: PersonData = buildPersonData();
+
+const leadProductData: ProductData = buildProductData();
+
 export const leadData: LeadData = {
     title: generateName(),
     description: generateDescription(),
     value: (Math.floor(Math.random() * 10000)).toString(),
     expectedCloseDate: "2028-12-31",
-    person: personData,
-    product: productData,
-    organizationName: personData.organizationName
+    /**
+     * The lead flow owns its person outright, so it never collides with the one the person or
+     * quote specs create.
+     */
+    person: leadPersonData,
+    /**
+     * The lead flow owns its product too — the quote and product specs each create one of their own.
+     */
+    product: leadProductData,
+    organizationName: leadPersonData.organizationName
 };
 
 export class LeadPage extends CoreLocators {

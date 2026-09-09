@@ -1,8 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
 import CoreLocators from "../locator/CoreLocators";
-import { productData, ProductData } from "./ProductPage";
+import { buildProductData, ProductData } from "./ProductPage";
 import { generateDescription, generateFullName } from "../utils/faker";
-import PersonsPage, { PersonData, personData } from "./PersonsPage";
+import PersonsPage, { buildPersonData, PersonData } from "./PersonsPage";
 export type QuoteData = {
     subject: string;
     description: string;
@@ -19,19 +19,26 @@ export type QuoteData = {
     // Add quote items type here if needed
 };
 
+const quotePersonData: PersonData = buildPersonData();
+
+const quoteProductData: ProductData = buildProductData();
+
 export const quoteData: QuoteData = {
     subject: generateFullName(),
     description: generateDescription(),
     salesOwnerId: "1",
     expiredAt: "2026-02-28",
-    person: personData,
+    /**
+     * A person of its own, for the same reason the lead flow has one.
+     */
+    person: quotePersonData,
     leadName: "Corporate Website Lead",
     address: "Plot 45, Industrial Area",
     countryCode: "IN",
     stateCode: "DL",
     city: "New Delhi",
     postcode: "110020",
-    product: productData,
+    product: quoteProductData,
     // Optionally add quote items array if needed
 };
 

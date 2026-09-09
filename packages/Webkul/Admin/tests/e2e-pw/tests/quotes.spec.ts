@@ -18,8 +18,11 @@ test.describe("quotes mangement", async () => {
     await person.createPerson(quoteData.person);
     await product.navigateToProductPage();
     await product.createProductLink.click();
-    await product.productForm(productData);
-    quoteData.product = productData;
+    /**
+     * The quote flow's own product, so this does not collide with the product the lead and product
+     * specs create earlier in the same worker.
+     */
+    await product.productForm(quoteData.product);
     const quote = new QuotesPage(adminPage);
 
     await quote.navigateToQuotesPage();

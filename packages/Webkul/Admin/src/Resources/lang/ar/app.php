@@ -1765,7 +1765,7 @@ return [
         'unauthorized' => 'هذا الإجراء غير مصرح به.',
         'view' => [
             'title' => 'الرسائل',
-            'subject' => ':الموضوع',
+            'subject' => ':subject',
             'link-mail' => 'ربط البريد',
             'to' => 'إلى',
             'cc' => 'نسخة إلى',

@@ -69,6 +69,7 @@ Take advantage of two of the hottest frameworks used in this project -- Laravel 
 -   **PHP**: 8.3 or higher
 -   **Composer**: 2.5 or higher
 -   **For MySQL users**: 8.0.32 or higher.
+-   **For MariaDB users**: 11.4 LTS or higher (11.8 LTS recommended).
 
 ### Installation and Configuration
 

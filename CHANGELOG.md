@@ -4,15 +4,55 @@ This changelog consists of the bug & security fixes and new features being inclu
 
 ## **v2.2.6 (19th of Aug 2026)**
 
+* [feature] Added MariaDB support. MariaDB can now be selected in both the web and CLI installers, backed by a dedicated `mariadb` connection in `config/database.php` so Laravel uses the MariaDB driver and SQL grammar rather than the MySQL ones. MariaDB 11.4 LTS or higher is recommended; see `MARIADB.md` for setup and migration steps.
+
+* [feature] Added customizable lead card information. Datagrid columns and Kanban lead card fields can now be chosen per user through new column and card settings components.
+
+* [feature] Added PDF export for dashboard reports, available from the dashboard alongside the existing views.
+
+* [feature] Added Japanese (`ja`) translation for the Admin, Installer, GoogleContact and WebForm packages.
+
+* [feature] Added an associated group column to the users grid in Settings > Users.
+
+* [fixed] Fixed duplicated activity handling across the lead, person, product and warehouse activity controllers by consolidating the shared logic, and added the missing Japanese activity translations.
+
+* [fixed] Fixed the data transfer import queue processing inconsistently, and corrected the form control group rendering used by the import screen.
+
+* [fixed] Fixed the Google Contact settings screen erroring when no account was connected, and added the corresponding translations.
+
+* [fixed] Fixed the mail ACL mapping so email actions are checked against the correct permission.
+
+* [fixed] Fixed people created from a lead being saved with a null `user_id`, which hid them from the person listing for users restricted to group or individual data scope. They are now assigned to the lead owner, falling back to the acting user.
+
+* [fixed] Fixed the stage API resource omitting `lead_pipeline_id`, so stages could not be matched to their pipeline.
+
+* [fixed] Fixed email attachment downloads being blocked by the URL sanitizer middleware.
+
 * [fixed] Added the missing Chinese translations for the users grid's associated group column.
 
 * [fixed] Fixed flaky admin end-to-end tests around organization owner lookup, lead creation and rich-text comment fields.
 
+* [security] Fixed user and role listings not being scoped by the acting user's data scope, which allowed users to see records outside their own group. Roles now track their creator via a new `created_by` column.
+
+* [security] Hardened the admin ACL middleware to fail closed. An administrative route with no ACL mapping is now denied rather than allowed, inheriting the permission of its nearest mapped ancestor, with a narrow allow-list for authentication, self-service account management and generic UI helpers.
+
+* [security] Removed SVG from the allowed upload types for the admin logo and favicon configuration fields.
+
+* [security] Fixed a security issue configuration file uploads.
+
+* [security] Fixed a security issue activity notes and the TinyMCE editor component.
+
+* [security] Fixed a security issue in the web form embed view.
+
+* [security] Fixed a security issue in attribute downloads.
+
+* [security] Fixed a security issue in mail links.
+
+* [security] Fixed broken tag handling in the tag settings controller.
+
 * [security] Fixed SVG sanitization bypasses in media and configuration file uploads.
 
 * [security] Secured installer APIs.
-
-* [Security] Fix security releated issue.
 
 ## **v2.2.5 (4th of Aug 2026)**
 

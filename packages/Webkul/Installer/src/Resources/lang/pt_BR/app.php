@@ -171,6 +171,7 @@ return [
                 'default-url-link' => 'https://localhost',
                 'euro' => 'Euro (EUR)',
                 'mysql' => 'MySQL',
+                'mariadb' => 'MariaDB',
                 'pgsql' => 'pgSQL',
                 'select-timezone' => 'Selecionar Fuso Horário',
                 'warning-message' => 'Atenção! As configurações de idioma e moeda padrão não podem ser alteradas após definidas.',

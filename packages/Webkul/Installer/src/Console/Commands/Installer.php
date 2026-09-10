@@ -253,7 +253,7 @@ class Installer extends Command
         $databaseDetails = [
             'DB_CONNECTION' => select(
                 'Please select the database connection',
-                ['mysql', 'pgsql', 'sqlsrv']
+                ['mysql', 'mariadb', 'pgsql', 'sqlsrv']
             ),
 
             'DB_HOST' => text(

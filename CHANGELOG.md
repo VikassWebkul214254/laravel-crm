@@ -2,9 +2,9 @@
 
 This changelog consists of the bug & security fixes and new features being included in the releases listed below.
 
-## **v2.2.6 (19th of Aug 2026)**
+## **v2.2.6 (10th of Sept 2026)**
 
-* [feature] Added MariaDB support. MariaDB can now be selected in both the web and CLI installers, backed by a dedicated `mariadb` connection in `config/database.php` so Laravel uses the MariaDB driver and SQL grammar rather than the MySQL ones. MariaDB 11.4 LTS or higher is recommended; see `MARIADB.md` for setup and migration steps.
+* [feature] Added MariaDB support.
 
 * [feature] Added customizable lead card information. Datagrid columns and Kanban lead card fields can now be chosen per user through new column and card settings components.
 

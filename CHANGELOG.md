@@ -2,7 +2,7 @@
 
 This changelog consists of the bug & security fixes and new features being included in the releases listed below.
 
-## **v2.2.6 (19th of Aug 2026)**
+## **v2.2.6 (10th of Sept 2026)**
 
 * [feature] Added MariaDB support.
 
